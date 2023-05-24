@@ -1,5 +1,8 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import { log } from 'console';
+import { request } from 'http';
+import {surfSpot} from './models/surfSpot'
 dotenv.config();
 
 const mongoose = require('mongoose');
@@ -18,8 +21,11 @@ mongoose
     console.error(err);
   });
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server is now running yay!');
+app.get('/surfSpot', async (req: Request, res: Response) => {
+  // this is incorrect needs to correction 
+  const request = req.body;
+  console.log(req)
+  res.json(await surfSpot.find())
 });
 
 app.listen(port, () => {

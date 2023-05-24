@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-const { Schema, model } = mongoose;
 
-export const surfSpotSchema = new Schema({
+const surfSpotSchema = new mongoose.Schema({
     Destination: String,
     Photos: Array,
     Address: String,
@@ -13,3 +12,8 @@ export const surfSpotSchema = new Schema({
     PeakSurfSeasonEnds: String,
     SurfBreak: String
 })
+
+// Instantiation du nouveau Schema 
+
+export const surfSpot = mongoose.model('surfSpot', surfSpotSchema);
+module.exports = surfSpot;
