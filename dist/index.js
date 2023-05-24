@@ -29,10 +29,13 @@ mongoose
     console.error(err);
 });
 app.get('/surfSpot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // this is incorrect needs to correction 
-    const request = req.body;
-    console.log(req);
-    res.json(yield surfSpot_1.surfSpot.find());
+    // Instead of using req.body, access query parameters or path parameters
+    const { queryParam1, queryParam2 } = req.query;
+    // Use the query parameters as needed
+    console.log(queryParam1, queryParam2);
+    // Example: Use query parameters to filter the surfSpot.find() query
+    const surfSpots = yield surfSpot_1.surfSpot.find({ param1: queryParam1, param2: queryParam2 });
+    res.json(surfSpots);
 }));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
