@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
-const surfSpotSchema = new Schema({
+export const surfSpotSchema = new Schema({
     Destination: String,
     Photos: Array,
     Address: String,

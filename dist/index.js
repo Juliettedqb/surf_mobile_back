@@ -4,11 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const mongoose = require('mongoose');
 const app = (0, express_1.default)();
 const port = 3000;
+const dbPassword = process.env.DB_PASSWORD;
 mongoose
-    .connect("mongodb+srv://juliettedqb:waverider_adatech@cluster0.psamih5.mongodb.net/waverider?retryWrites=true&w=majority")
+    .connect(`mongodb+srv://juliettedqb:${dbPassword}@cluster0.psamih5.mongodb.net/waverider?retryWrites=true&w=majority`)
     .then((res) => {
     console.log("Mongoose connected");
 })
