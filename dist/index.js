@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const surfSpot_1 = require("./models/surfSpot");
+const surfspot_1 = require("./models/surfspot");
 dotenv_1.default.config();
 const mongoose = require('mongoose');
 const app = (0, express_1.default)();
@@ -29,10 +29,8 @@ mongoose
     console.error(err);
 });
 app.get('/surfSpot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // this is incorrect needs to correction 
-    const request = req.body;
-    console.log(req);
-    res.json(yield surfSpot_1.surfSpot.find());
+    const allSurfSpot = yield surfspot_1.SurfSpot.find();
+    res.json(allSurfSpot);
 }));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

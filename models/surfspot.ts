@@ -15,5 +15,4 @@ const surfSpotSchema = new mongoose.Schema({
 
 // Instantiation du nouveau Schema 
 
-export const surfSpot = mongoose.model('surfSpot', surfSpotSchema);
-module.exports = surfSpot;
+export const SurfSpot = mongoose.model('surfspot', surfSpotSchema);

@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { log } from 'console';
 import { request } from 'http';
-import {surfSpot} from './models/surfSpot'
+import {SurfSpot} from './models/surfspot'
 dotenv.config();
 
 const mongoose = require('mongoose');
@@ -22,10 +22,8 @@ mongoose
   });
 
 app.get('/surfSpot', async (req: Request, res: Response) => {
-  // this is incorrect needs to correction 
-  const request = req.body;
-  console.log(req)
-  res.json(await surfSpot.find())
+  const allSurfSpot = await SurfSpot.find();
+  res.json(allSurfSpot)
 });
 
 app.listen(port, () => {
