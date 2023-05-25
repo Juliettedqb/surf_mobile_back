@@ -12,7 +12,10 @@ const surfSpotSchema = new mongoose_1.default.Schema({
     Influencers: String,
     DestinationCountry: String,
     DifficultyLevel: Number,
-    Location: Object,
+    Location: {
+        type: { type: String, enum: ['Point'], default: 'Point' },
+        coordinates: { type: [Number], required: true }
+    },
     MagicSeaweedLink: String,
     PeakSurfSeasonEnds: String,
     SurfBreak: String

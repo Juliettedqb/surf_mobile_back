@@ -34,6 +34,7 @@ app.use((req, res, next) => {
     }
     next();
 });
+// connection with database
 mongoose
     .connect(`mongodb+srv://juliettedqb:${dbPassword}@cluster0.psamih5.mongodb.net/waverider?retryWrites=true&w=majority`)
     .then((res) => {
@@ -42,16 +43,69 @@ mongoose
     .catch((err) => {
     console.error(err);
 });
+// get all surf spots 
 app.get('/surfSpot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const allSurfSpot = yield surfspot_1.SurfSpot.find();
     res.json(allSurfSpot);
 }));
+// post a surf spot in DB
 app.post('/surfSpot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const surfSpotParams = req.body;
     const surfSpot = new surfspot_1.SurfSpot(surfSpotParams);
     yield surfSpot.save();
     res.json(surfSpot);
 }));
+// // Define the GET method with query parameters
+// app.get('/closestspot', async (req, res) => {
+//   const latitude = parseFloat(req.query.latitude as string);
+//   const longitude = parseFloat(req.query.longitude as string);
+//   // Check if latitude and longitude are valid numbers
+//   if (isNaN(latitude) || isNaN(longitude)) {
+//     return res.status(400).json({ message: 'Invalid latitude or longitude' });
+//   }
+//   // Find the closest surf spot based on the given latitude and longitude
+//   let closestSpot = await SurfSpot.find({
+//     Location: {
+//       $near: {
+//         $geometry: {
+//           type: 'Point',
+//           coordinates: [longitude, latitude]
+//         }
+//       }
+//     }
+//   });
+//   res.json(closestSpot);
+// });
+app.get('/closest-spot', (req, res) => {
+    const latitude = parseFloat(req.query.latitude);
+    const longitude = parseFloat(req.query.longitude);
+    // Check if latitude and longitude are valid numbers
+    if (isNaN(latitude) || isNaN(longitude)) {
+        return res.status(400).json({ message: 'Invalid latitude or longitude' });
+    }
+    // Find the closest surf spot based on the given latitude and longitude
+    surfspot_1.SurfSpot.findOne({
+        Location: {
+            $near: {
+                $geometry: {
+                    type: 'Point',
+                    coordinates: [longitude, latitude]
+                }
+            }
+        }
+    })
+        .then((spot) => {
+        if (spot) {
+            res.json(spot);
+        }
+        else {
+            res.status(404).json({ message: 'No surf spot found' });
+        }
+    })
+        .catch((error) => {
+        res.status(500).json({ message: 'Error retrieving surf spot', error: error.message });
+    });
+});
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
