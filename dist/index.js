@@ -17,9 +17,23 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const surfspot_1 = require("./models/surfspot");
 dotenv_1.default.config();
 const mongoose = require('mongoose');
+const bodyParser = require("body-parser");
 const app = (0, express_1.default)();
 const port = 3000;
 const dbPassword = process.env.DB_PASSWORD;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+// allow CORS from all
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+    // allow cors for put
+    if (req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+        return res.status(200).json({});
+    }
+    next();
+});
 mongoose
     .connect(`mongodb+srv://juliettedqb:${dbPassword}@cluster0.psamih5.mongodb.net/waverider?retryWrites=true&w=majority`)
     .then((res) => {
@@ -31,6 +45,12 @@ mongoose
 app.get('/surfSpot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const allSurfSpot = yield surfspot_1.SurfSpot.find();
     res.json(allSurfSpot);
+}));
+app.post('/surfSpot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const surfSpotParams = req.body;
+    const surfSpot = new surfspot_1.SurfSpot(surfSpotParams);
+    yield surfSpot.save();
+    res.json(surfSpot);
 }));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
