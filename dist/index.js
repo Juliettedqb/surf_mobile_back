@@ -56,26 +56,8 @@ app.post('/surfSpot', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     res.json(surfSpot);
 }));
 // // Define the GET method with query parameters
-// app.get('/closestspot', async (req, res) => {
-//   const latitude = parseFloat(req.query.latitude as string);
-//   const longitude = parseFloat(req.query.longitude as string);
-//   // Check if latitude and longitude are valid numbers
-//   if (isNaN(latitude) || isNaN(longitude)) {
-//     return res.status(400).json({ message: 'Invalid latitude or longitude' });
-//   }
-//   // Find the closest surf spot based on the given latitude and longitude
-//   let closestSpot = await SurfSpot.find({
-//     Location: {
-//       $near: {
-//         $geometry: {
-//           type: 'Point',
-//           coordinates: [longitude, latitude]
-//         }
-//       }
-//     }
-//   });
-//   res.json(closestSpot);
-// });
+// example how should http request to get the closest location
+// http://localhost:3000/closest-spot?latitude=47.218371&longitude=-1.553621
 app.get('/closest-spot', (req, res) => {
     const latitude = parseFloat(req.query.latitude);
     const longitude = parseFloat(req.query.longitude);
